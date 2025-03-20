@@ -8,9 +8,10 @@ export const globalStyles = StyleSheet.create({
     padding: 20,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.primary,
+    fontSize: 16,
+    fontFamily: 'Poppins-Medium',
+    color: '202C43',
+    lineHeight: 20,
     marginBottom: 16,
   },
   text: {
