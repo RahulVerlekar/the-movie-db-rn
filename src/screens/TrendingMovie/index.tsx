@@ -34,13 +34,15 @@ export const TrendingMovie = () => {
             </View>
             <FlatList
                 data={DATA_MOVIE}
+                numColumns={2}
+                columnWrapperStyle={{ justifyContent: 'space-between' }}
                 renderItem={({ item }) => (
                     <Pressable onPress={() => { onMovieClick() }}>
-                        <View style={{ padding: 10, marginStart: 10, marginEnd: 10 }}>
+                        <View style={{ padding: 10, marginStart: 10, marginEnd: 10, flex: 0.5 }}>
                             <RoundedImageCard
                                 imageUrl="https://image.tmdb.org/t/p/w500/2siOHQYDG7gCQB6g69g2pTZiSia.jpg"
                                 title={item}
-                                style={{ width: '100%', height: 180 }}
+                                style={{ width: '180', height: 180 }}
                             />
                         </View>
                     </Pressable>

@@ -5,6 +5,7 @@ import { Image, StyleSheet, Text } from 'react-native';
 import TrendingMovie from '../screens/TrendingMovie';
 import { globalStyles } from '../common/styles/globalStyles';
 import { colors } from '../common/styles/colors';
+import SearchMovie from '../screens/SearchMovie';
 
 // Placeholder components for additional tabs
 const UpcomingScreen = () => <Text>Upcoming Movies</Text>;
@@ -28,7 +29,7 @@ const TabNavigator = () => {
       >
         <Tab.Screen 
           name="Dashboard" 
-          component={TrendingMovie} 
+          component={SearchMovie} 
           options={{
             tabBarIcon: ({ color }) => (
               <Image source={require('../assets/icons/dashboard.png')} style={{ tintColor: color, width: 18, height: 18, marginBottom: 8 }} />

@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Pressable, Touchable, TouchableOpacity, Alert, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Image, Pressable, Touchable, TouchableOpacity, Alert, FlatList, TextInput } from 'react-native';
 import Toolbar from '../../components/Toolbar';
 import { globalStyles } from '../../common/styles/globalStyles';
 import RoundedImageCard from '../../components/RoundedImageCard';
+import { colors } from '../../common/styles/colors';
 
 const DATA_MOVE_GENERE = [
     'Action',
@@ -27,51 +28,46 @@ const DATA_MOVE_GENERE = [
 ]
 
 export const SearchMovie = () => {
-    function onSearchPress() {
+    function onSearchClose() {
         Alert.alert('Search Pressed');
     }
 
-    function onMovieClick() {
-        console.log('Watch Pressed');
+    function onCategoryClick(data: string) {
+        Alert.alert(`Category Pressed: ${data}`);
     }
 
     return (
         <View style={[globalStyles.tabContainer, style.container]}>
-            <View style={style.toolbarContainer}>
-                <Text style={[globalStyles.title, { marginTop: 24 }]}>
-                    Watch
-                </Text>
-                <TouchableOpacity onPress={() => { onSearchPress() }}>
-                    <Image source={require('../../assets/icons/search.png')} style={{ width: 48, height: 48, marginEnd: 8 }} />
-                </TouchableOpacity>
+            <View style={style.searchBar}>
+                <View style={style.searchArea}>
+                    <Image source={require('../../assets/icons/search.png')} style={{ width: 36, height: 36, marginStart: 10 }} />
+                    <TextInput
+                        placeholder='TV shows, movies and more'
+                        style={[style.searchInput, { fontFamily: 'Poppins-Regular', fontSize: 14, color: '#202C43' }]}>
+                    </TextInput>
+                    <TouchableOpacity onPress={() => { onSearchClose() }}>
+                        <Image source={require('../../assets/icons/close.png')} style={{ width: 36, height: 36, marginEnd: 8 }} />
+                    </TouchableOpacity>
+                </View>
             </View>
             <FlatList
                 data={DATA_MOVE_GENERE}
                 numColumns={2}
+                style={{ margin: 10 }}
                 renderItem={({ item }) => (
-                    <Pressable onPress={() => { onMovieClick() }}>
-                        <View style={{ padding: 10, marginStart: 10, marginEnd: 10 }}>
-                            <RoundedImageCard
-                                imageUrl="https://image.tmdb.org/t/p/w500/2siOHQYDG7gCQB6g69g2pTZiSia.jpg"
-                                title={item}
-                                style={{ width: '100%', height: 180 }}
-                            />
-                        </View>
+                    <Pressable onPress={() => { onCategoryClick(item) }}
+                        style={style.item} >
+                        <RoundedImageCard
+                            imageUrl="https://image.tmdb.org/t/p/w500/2siOHQYDG7gCQB6g69g2pTZiSia.jpg"
+                            title={item}
+                            style={style.image} />
                     </Pressable>
                 )}
-                keyExtractor={(item, index) => index.toString()}
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ paddingBottom: 24 }}
-                ListEmptyComponent={() => (
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={globalStyles.text}>No Movies Available</Text>
-                    </View>
-                )}
             />
-
         </View>
     );
 };
+
 
 const style = StyleSheet.create({
     container: {
@@ -79,14 +75,46 @@ const style = StyleSheet.create({
         width: '100%',
         backgroundColor: '#F6F6FA',
     },
-    toolbarContainer: {
+    searchBar: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingStart: 24,
+        paddingStart: 20,
         borderBottomWidth: 1,
         borderBottomColor: '#EFEFEF',
+        height: 86,
     },
+    searchArea: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#EFEFEF',
+        borderRadius: 30,
+        height: 52,
+        flexGrow: 1,
+        marginEnd: 10,
+    },
+    searchInput: {
+        flexGrow: 1,
+        alignSelf: 'center',
+        color: '#000',
+        paddingStart: 10,
+    },
+    item: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1/2,
+        margin: 5,
+        height: 100,
+    },
+    image: {
+        height: '100%',
+        flex: 1,
+        flexGrow: 1,
+        width: '100%',
+    }
 });
+
+const styles = StyleSheet.create({
+});
+
 
 export default SearchMovie;
