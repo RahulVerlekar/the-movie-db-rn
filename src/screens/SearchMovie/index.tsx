@@ -107,8 +107,6 @@ const style = StyleSheet.create({
     },
     image: {
         height: '100%',
-        flex: 1,
-        flexGrow: 1,
         width: '100%',
     }
 });
