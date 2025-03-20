@@ -1,0 +1,11 @@
+### Movie List API
+GET https://api.themoviedb.org/3/movie/upcoming?api_key=c5f86a0a9073003e060c91aacf8527e4
+Content-Type: application/json
+
+### Movie Details API
+GET https://api.themoviedb.org/3/movie/447273?api_key=c5f86a0a9073003e060c91aacf8527e4
+Content-Type: application/json
+
+### Get Images API
+GET https://api.themoviedb.org/3/movie/447273/images?api_key=c5f86a0a9073003e060c91aacf8527e4
+Content-Type: application/json
