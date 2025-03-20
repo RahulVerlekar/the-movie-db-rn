@@ -65,19 +65,7 @@ const TabNavigator = () => {
       </Tab.Navigator>
     </NavigationContainer>
   );
-
-  const style = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: colors.background,
-    },
-    tabBarIcon: {
-      tintColor: colors.inactive,
-      width: 18,
-      height: 18,
-      padding: 8,
-    },
-  });
+  
 };
 
 export default TabNavigator;

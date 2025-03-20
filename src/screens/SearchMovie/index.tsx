@@ -4,16 +4,29 @@ import Toolbar from '../../components/Toolbar';
 import { globalStyles } from '../../common/styles/globalStyles';
 import RoundedImageCard from '../../components/RoundedImageCard';
 
-const DATA_MOVIE = [
-    'Avatar: The Way of Water',
-    'Black Panther: Wakanda Forever',
-    'The Batman',
-    'Doctor Strange in the Multiverse of Madness',
-    'Jurassic World Dominion',
-    'Thor: Love and Thunder'
+const DATA_MOVE_GENERE = [
+    'Action',
+    'Adventure',
+    'Animation',
+    'Comedy',
+    'Crime',
+    'Documentary',
+    'Drama',
+    'Family',
+    'Fantasy',
+    'History',
+    'Horror',
+    'Music',
+    'Mystery',
+    'Romance',
+    'Science Fiction',
+    'TV Movie',
+    'Thriller',
+    'War',
+    'Western'
 ]
 
-export const TrendingMovie = () => {
+export const SearchMovie = () => {
     function onSearchPress() {
         Alert.alert('Search Pressed');
     }
@@ -33,7 +46,8 @@ export const TrendingMovie = () => {
                 </TouchableOpacity>
             </View>
             <FlatList
-                data={DATA_MOVIE}
+                data={DATA_MOVE_GENERE}
+                numColumns={2}
                 renderItem={({ item }) => (
                     <Pressable onPress={() => { onMovieClick() }}>
                         <View style={{ padding: 10, marginStart: 10, marginEnd: 10 }}>
@@ -75,4 +89,4 @@ const style = StyleSheet.create({
     },
 });
 
-export default TrendingMovie;
+export default SearchMovie;
