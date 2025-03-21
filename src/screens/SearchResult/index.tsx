@@ -7,22 +7,6 @@ import { use, useEffect, useState } from "react";
 import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
 import { TrendingStackParamList } from "../SearchContainer";
 
-const DATA_MOVIE_GENRE = [
-    { name: 'Alice In wonderland', genre: 'Fantasy' },
-    { name: 'The Dark Knight', genre: 'Action' },
-    { name: 'The Shawshank Redemption', genre: 'Drama' },
-    { name: 'The Godfather', genre: 'Crime' },
-    { name: 'The Lord of the Rings: The Return of the King', genre: 'Adventure' },
-    { name: 'Pulp Fiction', genre: 'Thriller' },
-    { name: 'Forrest Gump', genre: 'Romance' },
-    { name: 'Inception', genre: 'Science Fiction' },
-    { name: 'The Matrix', genre: 'Action' },
-    { name: 'Fight Club', genre: 'Drama' },
-]
-interface Props {
-
-}
-
 const SearchGenreResult = () => {
 
     const route = useRoute();

@@ -5,26 +5,15 @@ import LinearGradient from "react-native-linear-gradient";
 import { useEffect, useState } from "react";
 import { MovieDetailsResponse } from "../../models/MovieDetailsResponse";
 import { MovieAPIClient } from "../../network/TheMovieDBClient";
-import { useRoute } from "@react-navigation/native";
-
-const DATA_MOVIE_GENRE = [
-    { name: 'Alice In wonderland', genre: 'Fantasy' },
-    { name: 'The Dark Knight', genre: 'Action' },
-    { name: 'The Shawshank Redemption', genre: 'Drama' },
-    { name: 'The Godfather', genre: 'Crime' },
-    { name: 'The Lord of the Rings: The Return of the King', genre: 'Adventure' },
-    { name: 'Pulp Fiction', genre: 'Thriller' },
-    { name: 'Forrest Gump', genre: 'Romance' },
-    { name: 'Inception', genre: 'Science Fiction' },
-    { name: 'The Matrix', genre: 'Action' },
-    { name: 'Fight Club', genre: 'Drama' },
-]
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const MovieDetail = () => {
 
     const [movie, setMovie] = useState<MovieDetailsResponse>()
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const route = useRoute();
+    const navigation = useNavigation();
+    const { goBack } = navigation;
     const { movieId } = route.params as { movieId: number };
 
     const client = new MovieAPIClient();
@@ -54,7 +43,7 @@ const MovieDetail = () => {
             <View>
                 <View style={styles.imageContainer}>
                     <View style={styles.toolbarContainer}>
-                        <TouchableOpacity onPress={() => { }}>
+                        <TouchableOpacity onPress={() => { goBack() }}>
                             <Image source={require('../../assets/icons/back.png')} style={styles.backIcon} />
                         </TouchableOpacity>
                         <Text style={[globalStyles.title, styles.toolbarTitle]}>

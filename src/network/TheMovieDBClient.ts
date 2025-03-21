@@ -27,4 +27,9 @@ export class MovieAPIClient extends BaseNetworkRepo {
         const response = await this.get<MovieDetailsResponse>(`/movie/${movieId}`);
         return response;
     }
+
+    async searchMovie(query: string): Promise<UpcomingMoviesResponse> {
+        const response = await this.get<UpcomingMoviesResponse>(`/search/movie?query=${query}`);
+        return response;
+    }
 }

@@ -21,3 +21,7 @@ Content-Type: application/json
 ### Get list of all the movies for a specific genre
 GET https://api.themoviedb.org/3/discover/movie?api_key=c5f86a0a9073003e060c91aacf8527e4&with_genres=28,12,16,35
 Content-Type: application/json
+
+### search for a movie with text
+GET https://api.themoviedb.org/3/search/movie?api_key=c5f86a0a9073003e060c91aacf8527e4&query=spider
+Content-Type: application/json
