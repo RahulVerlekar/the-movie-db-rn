@@ -17,6 +17,13 @@ const DATA_MOVIE_GENRE = [
 ]
 
 const MovieDetail = () => {
+
+    const renderGenreBadge = (genre: string, index: number) => (
+        <View key={index} style={styles.genreBadge}>
+            <Text style={styles.genreText}>{genre}</Text>
+        </View>
+    );
+
     return (
         <View style={styles.container}>
             <View>
@@ -61,12 +68,9 @@ const MovieDetail = () => {
                 <View style={styles.detailsContent}>
                     <Text style={styles.sectionTitle}>Genres</Text>
                     <View style={styles.genresContainer}>
-                        {['Action', 'Thriller', 'Science', 'Fiction'].map((genre, index) => (
-                            <View key={index} style={styles.genreBadge}>
-                                <Text style={styles.genreText}>{genre}</Text>
-                            </View>
-                        ))}
+                        {['Action', 'Thriller', 'Science', 'Fiction'].map(renderGenreBadge)}
                     </View>
+                    <View style={{ height: 1, backgroundColor: '#E4E7EC', marginBottom: 10, marginTop: 10 }} />
                     <Text style={styles.sectionTitle}>Overview</Text>
                     <Text style={styles.overviewText}>
                         As A Collection Of History's Worst Tyrants And Criminal Masterminds Gather To Plot A War To Wipe Out Millions, One Man Must Race Against Time To Stop Them. Discover The Origins Of The Very First Independent Intelligence Agency In The King's Man. The Comic Book “The Secret Service” By Mark Millar And Dave Gibbons.
@@ -192,13 +196,12 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         fontSize: 18,
-        fontWeight: 'bold',
+        fontFamily: 'Poppins-Medium',
         marginBottom: 10,
     },
     genresContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        marginBottom: 20,
     },
     genreBadge: {
         backgroundColor: '#61C3F2',
@@ -212,8 +215,10 @@ const styles = StyleSheet.create({
         color: '#fff',
     },
     overviewText: {
-        fontSize: 14,
-        color: '#202C43',
+        fontFamily: 'Poppins-Regular',
+        lineHeight: 19,
+        fontSize: 12,
+        color: '#8f8f8f',
     },
     searchResults: {
         fontFamily: 'Poppins-Medium',
