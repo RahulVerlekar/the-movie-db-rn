@@ -5,15 +5,16 @@ import { globalStyles } from '../../common/styles/globalStyles';
 import RoundedImageCard from '../../components/RoundedImageCard';
 import { MovieAPIClient } from '../../network/TheMovieDBClient';
 import { Movie } from '../../models/UpcomingMoviesResponse';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { TrendingStackParamList } from '../SearchContainer';
 
 
 export const TrendingMovie = () => {
 
-    const navigation = useNavigation();
+    const navigation: NavigationProp<TrendingStackParamList> = useNavigation();
 
     function onSearchPress() {
-        Alert.alert('Search Pressed');
+        navigation.navigate('SearchMovie');
     }
 
     function onMovieClick(item: Movie) {

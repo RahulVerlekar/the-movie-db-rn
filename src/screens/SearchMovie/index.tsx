@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, Pressable, Touchable, TouchableOpacity, Alert, FlatList, TextInput } from 'react-native';
 import Toolbar from '../../components/Toolbar';
 import { globalStyles } from '../../common/styles/globalStyles';
 import RoundedImageCard from '../../components/RoundedImageCard';
 import { colors } from '../../common/styles/colors';
+import { useNavigation } from '@react-navigation/native';
+import { Genre } from '../../models/GenreListResponse';
+import { MovieAPIClient } from '../../network/TheMovieDBClient';
 
 const DATA_MOVE_GENERE = [
     'Action',
@@ -28,12 +31,35 @@ const DATA_MOVE_GENERE = [
 ]
 
 export const SearchMovie = () => {
+    
+    const navigation = useNavigation();
+
+    const client = new MovieAPIClient();
+    const [genre, setGenre] = useState<Genre[]>([]);
+    const [searchText, setSearchText] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    useEffect(() => {
+        const fetchGenres = async () => {
+            setIsLoading(true);
+            try {
+                const response = await client.getGenreList();
+                setGenre(response);
+            } catch (error) {
+                console.error('Error fetching genres:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchGenres();
+    }, []);
+
     function onSearchClose() {
-        Alert.alert('Search Pressed');
+        navigation.goBack();
     }
 
-    function onCategoryClick(data: string) {
-        Alert.alert(`Category Pressed: ${data}`);
+    function onCategoryClick(item: Genre) {
+        navigation.navigate('SearchResult');
     }
 
     return (
@@ -51,7 +77,7 @@ export const SearchMovie = () => {
                 </View>
             </View>
             <FlatList
-                data={DATA_MOVE_GENERE}
+                data={genre}
                 numColumns={2}
                 style={{ marginStart: 10, marginEnd: 10, marginTop: 20 }}
                 renderItem={({ item }) => (
@@ -59,7 +85,7 @@ export const SearchMovie = () => {
                         style={style.item} >
                         <RoundedImageCard
                             imageUrl="https://image.tmdb.org/t/p/w500/2siOHQYDG7gCQB6g69g2pTZiSia.jpg"
-                            title={item}
+                            title={item.name}
                             style={style.image} />
                     </Pressable>
                 )}

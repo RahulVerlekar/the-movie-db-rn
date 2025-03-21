@@ -9,3 +9,15 @@ Content-Type: application/json
 ### Get Images API
 GET https://api.themoviedb.org/3/movie/447273/images?api_key=c5f86a0a9073003e060c91aacf8527e4
 Content-Type: application/json
+
+### Get list of all the genre
+GET https://api.themoviedb.org/3/genre/movie/list?api_key=c5f86a0a9073003e060c91aacf8527e4
+Content-Type: application/json
+
+### Get list of all the movies for a specific genre
+GET https://api.themoviedb.org/3/discover/movie?api_key=c5f86a0a9073003e060c91aacf8527e4&with_genres=28,12,16,35,80,99,18,10751,14,36,27,10402,9648,10749,878,10770,53,10752,37
+Content-Type: application/json
+
+### Get list of all the movies for a specific genre
+GET https://api.themoviedb.org/3/discover/movie?api_key=c5f86a0a9073003e060c91aacf8527e4&with_genres=28,12,16,35
+Content-Type: application/json

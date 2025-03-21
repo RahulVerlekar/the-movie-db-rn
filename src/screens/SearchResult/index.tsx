@@ -1,6 +1,9 @@
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import MovieSearchItem from "../../components/MovieSearchItem";
 import { globalStyles } from "../../common/styles/globalStyles";
+import { MovieAPIClient } from "../../network/TheMovieDBClient";
+import { Movie } from "../../models/UpcomingMoviesResponse";
+import { use, useEffect, useState } from "react";
 
 const DATA_MOVIE_GENRE = [
     { name: 'Alice In wonderland', genre: 'Fantasy' },
@@ -14,8 +17,32 @@ const DATA_MOVIE_GENRE = [
     { name: 'The Matrix', genre: 'Action' },
     { name: 'Fight Club', genre: 'Drama' },
 ]
+interface Props {
 
-const SearchResult = () => {
+}
+
+const SearchGenreResult = () => {
+
+    const client = new MovieAPIClient();
+
+    const [movies, setMovies] = useState<Movie[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    
+    useEffect(() => {
+        const fetchMovies = async () => {
+            setIsLoading(true);
+            try {
+                const response = await client.getMovieForGenre(38);
+                setMovies(response.results);
+            } catch (error) {
+                console.error('Error fetching movies:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchMovies();
+    }, []);
+
     return (
         <View style={style.container}>
             <View style={style.toolbarContainer}>
@@ -29,15 +56,15 @@ const SearchResult = () => {
             <Text style={style.searchResults}>Top Results</Text>
             <View style={{ height: 1, backgroundColor: '#E4E7EC', marginTop: 8, marginStart: 20, marginEnd: 20 }} />
             <FlatList
-                data={DATA_MOVIE_GENRE}
+                data={movies}
                 numColumns={1}
                 style={{ marginStart: 20, marginEnd: 20, marginTop: 20 }}
                 ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
                 renderItem={({ item }) => (
                     <MovieSearchItem
-                        imageUrl="https://image.tmdb.org/t/p/w500/2siOHQYDG7gCQB6g69g2pTZiSia.jpg"
-                        title={item.name}
-                        genre={item.genre}
+                        imageUrl={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
+                        title={item.title}
+                        genre={item.original_language}
                         onPress={(item) => console.log(item)}
                     />
                 )}
@@ -81,4 +108,4 @@ const style = StyleSheet.create({
     },
 });
 
-export default SearchResult;
+export default SearchGenreResult;
