@@ -37,7 +37,7 @@ export const SearchMovie = () => {
     }
 
     return (
-        <View style={[globalStyles.tabContainer, style.container]}>
+        <View style={[style.container]}>
             <View style={style.searchBar}>
                 <View style={style.searchArea}>
                     <Image source={require('../../assets/icons/search.png')} style={{ width: 36, height: 36, marginStart: 10 }} />
@@ -53,7 +53,7 @@ export const SearchMovie = () => {
             <FlatList
                 data={DATA_MOVE_GENERE}
                 numColumns={2}
-                style={{ margin: 10 }}
+                style={{ marginStart: 10, marginEnd: 10, marginTop: 20 }}
                 renderItem={({ item }) => (
                     <Pressable onPress={() => { onCategoryClick(item) }}
                         style={style.item} >

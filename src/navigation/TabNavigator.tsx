@@ -6,6 +6,7 @@ import TrendingMovie from '../screens/TrendingMovie';
 import { globalStyles } from '../common/styles/globalStyles';
 import { colors } from '../common/styles/colors';
 import SearchMovie from '../screens/SearchMovie';
+import SearchResult from '../screens/SearchResult';
 
 // Placeholder components for additional tabs
 const UpcomingScreen = () => <Text>Upcoming Movies</Text>;
@@ -29,7 +30,7 @@ const TabNavigator = () => {
       >
         <Tab.Screen 
           name="Dashboard" 
-          component={SearchMovie} 
+          component={SearchResult} 
           options={{
             tabBarIcon: ({ color }) => (
               <Image source={require('../assets/icons/dashboard.png')} style={{ tintColor: color, width: 18, height: 18, marginBottom: 8 }} />
