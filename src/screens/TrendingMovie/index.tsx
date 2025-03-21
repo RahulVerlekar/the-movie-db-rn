@@ -1,26 +1,40 @@
-import React from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, Pressable, Touchable, TouchableOpacity, Alert, FlatList } from 'react-native';
 import Toolbar from '../../components/Toolbar';
 import { globalStyles } from '../../common/styles/globalStyles';
 import RoundedImageCard from '../../components/RoundedImageCard';
+import { MovieAPIClient } from '../../network/TheMovieDBClient';
+import { Movie } from '../../models/UpcomingMoviesResponse';
+import { useNavigation } from '@react-navigation/native';
 
-const DATA_MOVIE = [
-    'Avatar: The Way of Water',
-    'Black Panther: Wakanda Forever',
-    'The Batman',
-    'Doctor Strange in the Multiverse of Madness',
-    'Jurassic World Dominion',
-    'Thor: Love and Thunder'
-]
 
 export const TrendingMovie = () => {
+
+    const navigation = useNavigation();
+
     function onSearchPress() {
         Alert.alert('Search Pressed');
     }
 
-    function onMovieClick() {
-        console.log('Watch Pressed');
+    function onMovieClick(item: Movie) {
+        Alert.alert(`Movie Pressed: ${item.title}`);
     }
+
+    const client = new MovieAPIClient();
+
+    const [movies, setMovies] = useState<Movie[]>([]);
+
+    useEffect(() => {
+        const fetchTrendingMovies = async () => {
+            try {
+                const response = await client.getUpcomingMovies();
+                setMovies(response.results);
+            } catch (error) {
+                console.error('Error fetching trending movies:', error);
+            }
+        };
+        fetchTrendingMovies();
+    }, []);
 
     return (
         <View style={[globalStyles.tabContainer, style.container]}>
@@ -33,21 +47,21 @@ export const TrendingMovie = () => {
                 </TouchableOpacity>
             </View>
             <FlatList
-                data={DATA_MOVIE}
-                numColumns={2}
-                columnWrapperStyle={{ justifyContent: 'space-between' }}
+                data={movies}
+                numColumns={1}
+                
                 renderItem={({ item }) => (
-                    <Pressable onPress={() => { onMovieClick() }}>
-                        <View style={{ padding: 10, marginStart: 10, marginEnd: 10, flex: 0.5 }}>
+                    <Pressable onPress={() => { onMovieClick(item) }}>
+                        <View style={{ padding: 10, marginStart: 10, marginEnd: 10, flex: 1 }}>
                             <RoundedImageCard
-                                imageUrl="https://image.tmdb.org/t/p/w500/2siOHQYDG7gCQB6g69g2pTZiSia.jpg"
-                                title={item}
-                                style={{ width: '180', height: 180 }}
+                                imageUrl={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
+                                title={item.title}
+                                style={{ width: '100%', height: 180 }}
                             />
                         </View>
                     </Pressable>
                 )}
-                keyExtractor={(item, index) => index.toString()}
+                keyExtractor={(item, index) => item.id.toString()}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 24 }}
                 ListEmptyComponent={() => (

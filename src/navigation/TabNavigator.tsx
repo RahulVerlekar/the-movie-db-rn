@@ -31,7 +31,7 @@ const TabNavigator = () => {
       >
         <Tab.Screen 
           name="Dashboard" 
-          component={MovieDetail} 
+          component={TrendingMovie} 
           options={{
             tabBarIcon: ({ color }) => (
               <Image source={require('../assets/icons/dashboard.png')} style={{ tintColor: color, width: 18, height: 18, marginBottom: 8 }} />
