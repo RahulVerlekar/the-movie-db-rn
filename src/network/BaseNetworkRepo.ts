@@ -60,14 +60,17 @@ export class BaseNetworkRepo {
         try {
 
             //add an extra get param to every request
-            //remove teh trailing slash from the url
+            //remove teh trailing slash from the url and has a get param
             if (url.endsWith('/')) {
                 url = url.slice(0, -1);
-                url = url + '?api_key=c5f86a0a9073003e060c91aacf8527e4';
+                if (!url.includes('?')) {
+                    url = url + '?api_key=c5f86a0a9073003e060c91aacf8527e4';
+                }
+                else {
+                    url = url + '&api_key=c5f86a0a9073003e060c91aacf8527e4';
+                }
             }
-            else {
-                url = url + '&api_key=c5f86a0a9073003e060c91aacf8527e4';
-            }
+            
             
             // Add default headers
             const headers = new Headers({

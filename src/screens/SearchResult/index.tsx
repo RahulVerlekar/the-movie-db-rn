@@ -32,7 +32,7 @@ const SearchGenreResult = () => {
         const fetchMovies = async () => {
             setIsLoading(true);
             try {
-                const response = await client.getMovieForGenre(38);
+                const response = await client.getMovieForGenre(28);
                 setMovies(response.results);
             } catch (error) {
                 console.error('Error fetching movies:', error);
