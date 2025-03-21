@@ -4,35 +4,14 @@ import Toolbar from '../../components/Toolbar';
 import { globalStyles } from '../../common/styles/globalStyles';
 import RoundedImageCard from '../../components/RoundedImageCard';
 import { colors } from '../../common/styles/colors';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { Genre } from '../../models/GenreListResponse';
 import { MovieAPIClient } from '../../network/TheMovieDBClient';
-
-const DATA_MOVE_GENERE = [
-    'Action',
-    'Adventure',
-    'Animation',
-    'Comedy',
-    'Crime',
-    'Documentary',
-    'Drama',
-    'Family',
-    'Fantasy',
-    'History',
-    'Horror',
-    'Music',
-    'Mystery',
-    'Romance',
-    'Science Fiction',
-    'TV Movie',
-    'Thriller',
-    'War',
-    'Western'
-]
+import { TrendingStackParamList } from '../SearchContainer';
 
 export const SearchMovie = () => {
     
-    const navigation = useNavigation();
+    const navigation: NavigationProp<TrendingStackParamList> = useNavigation();
 
     const client = new MovieAPIClient();
     const [genre, setGenre] = useState<Genre[]>([]);
@@ -59,7 +38,7 @@ export const SearchMovie = () => {
     }
 
     function onCategoryClick(item: Genre) {
-        navigation.navigate('SearchResult');
+        navigation.navigate('SearchResult', { grenreId: item.id });
     }
 
     return (

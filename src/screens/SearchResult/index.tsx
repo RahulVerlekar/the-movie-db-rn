@@ -1,9 +1,11 @@
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import MovieSearchItem from "../../components/MovieSearchItem";
 import { globalStyles } from "../../common/styles/globalStyles";
 import { MovieAPIClient } from "../../network/TheMovieDBClient";
 import { Movie } from "../../models/UpcomingMoviesResponse";
 import { use, useEffect, useState } from "react";
+import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
+import { TrendingStackParamList } from "../SearchContainer";
 
 const DATA_MOVIE_GENRE = [
     { name: 'Alice In wonderland', genre: 'Fantasy' },
@@ -23,16 +25,20 @@ interface Props {
 
 const SearchGenreResult = () => {
 
+    const route = useRoute();
+    const navigation: NavigationProp<TrendingStackParamList> = useNavigation();
+    const { grenreId } = route.params as { grenreId: number };
+
     const client = new MovieAPIClient();
 
     const [movies, setMovies] = useState<Movie[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    
+
     useEffect(() => {
         const fetchMovies = async () => {
             setIsLoading(true);
             try {
-                const response = await client.getMovieForGenre(28);
+                const response = await client.getMovieForGenre(grenreId);
                 setMovies(response.results);
             } catch (error) {
                 console.error('Error fetching movies:', error);
@@ -41,16 +47,20 @@ const SearchGenreResult = () => {
             }
         };
         fetchMovies();
-    }, []);
+    }, [grenreId]);
+
+    function onMovieClick(item: Movie) {
+        navigation.navigate('MovieDetail', { movieId: item.id });
+    }
 
     return (
         <View style={style.container}>
             <View style={style.toolbarContainer}>
-                <TouchableOpacity  onPress={() => { }}>
+                <TouchableOpacity onPress={() => { }}>
                     <Image source={require('../../assets/icons/back.png')} style={{ width: 30, height: 30, marginEnd: 8 }} />
                 </TouchableOpacity>
                 <Text style={[globalStyles.title, { alignSelf: 'center', verticalAlign: 'middle', marginBottom: 0 }]}>
-                    3 results found
+                    {movies.length} results found
                 </Text>
             </View>
             <Text style={style.searchResults}>Top Results</Text>
@@ -61,12 +71,14 @@ const SearchGenreResult = () => {
                 style={{ marginStart: 20, marginEnd: 20, marginTop: 20 }}
                 ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
                 renderItem={({ item }) => (
-                    <MovieSearchItem
-                        imageUrl={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
-                        title={item.title}
-                        genre={item.original_language}
-                        onPress={(item) => console.log(item)}
-                    />
+                    <Pressable onPress={() => { onMovieClick(item) }} >
+                        <MovieSearchItem
+                            imageUrl={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
+                            title={item.title}
+                            genre={item.original_language}
+                            onPress={(item) => console.log(item)}
+                        />
+                    </Pressable>
                 )}
                 keyExtractor={(item, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
@@ -98,13 +110,13 @@ const style = StyleSheet.create({
     toolbarContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        verticalAlign:'middle',
+        verticalAlign: 'middle',
         paddingStart: 20,
         borderBottomWidth: 1,
         borderBottomColor: '#EFEFEF',
         backgroundColor: '#FFFFFF',
         height: 64,
-        
+
     },
 });
 

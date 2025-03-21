@@ -1,6 +1,7 @@
 import { BaseNetworkRepo } from "./BaseNetworkRepo";
 import { UpcomingMoviesResponse } from "../models/UpcomingMoviesResponse";
 import { Genre, GenreListResponse } from "../models/GenreListResponse";
+import { MovieDetailsResponse } from "../models/MovieDetailsResponse";
 
 export class MovieAPIClient extends BaseNetworkRepo {
     constructor(baseURL: string = 'https://api.themoviedb.org/3') {
@@ -19,6 +20,11 @@ export class MovieAPIClient extends BaseNetworkRepo {
 
     async getMovieForGenre(genreId: number): Promise<UpcomingMoviesResponse> {
         const response = await this.get<UpcomingMoviesResponse>(`/discover/movie?with_genres=${genreId}`);
+        return response;
+    }
+
+    async getMovieDetails(movieId: number): Promise<MovieDetailsResponse> {
+        const response = await this.get<MovieDetailsResponse>(`/movie/${movieId}`);
         return response;
     }
 }

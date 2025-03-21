@@ -18,7 +18,7 @@ export const TrendingMovie = () => {
     }
 
     function onMovieClick(item: Movie) {
-        Alert.alert(`Movie Pressed: ${item.title}`);
+        navigation.navigate('MovieDetail', { movieId: item.id });
     }
 
     const client = new MovieAPIClient();

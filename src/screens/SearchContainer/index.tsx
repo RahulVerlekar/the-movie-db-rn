@@ -6,14 +6,14 @@ import { Button } from '@react-navigation/elements';
 import TrendingMovie from '../TrendingMovie';
 import SearchMovie from '../SearchMovie';
 import SearchGenreResult from '../SearchResult';
+import MovieDetail from '../MovieDetail';
 
 
-export type TrendingStackParamList = StaticParamList<typeof Stack>
-
-declare global {
-    namespace ReactNavigation {
-        interface RootParamList extends TrendingStackParamList { }
-    }
+export type TrendingStackParamList = {
+    Trending: undefined;
+    SearchMovie: undefined;
+    SearchResult: { grenreId: number };
+    MovieDetail: { movieId: number };
 }
 
 function TrendingScreen() {
@@ -35,6 +35,12 @@ function SearchResultsScreen() {
     )
 }
 
+function MovieDetailScreen() {
+    return (
+        <MovieDetail />
+    )
+}
+
 const Stack = createNativeStackNavigator(
     {
         screens: {
@@ -42,7 +48,7 @@ const Stack = createNativeStackNavigator(
                 screen: TrendingScreen,
                 options: {
                     headerShown: false,
-                },
+                }
             },
             SearchMovie: {
                 screen: SearchMovieScreen,
@@ -54,8 +60,14 @@ const Stack = createNativeStackNavigator(
                 screen: SearchResultsScreen,
                 options: {
                     headerShown: false,
-                },
+                }
             },
+            MoviewDetail: {
+                screen: MovieDetail,
+                options: {
+                    headerShown: false,
+                }
+            }
         }
     }
 );
@@ -67,6 +79,7 @@ function RootStack() {
             <Stack.Screen name="Trending" component={TrendingScreen} options={{ headerShown: false }} />
             <Stack.Screen name="SearchMovie" component={SearchMovieScreen} options={{ headerShown: false }} />
             <Stack.Screen name="SearchResult" component={SearchResultsScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="MovieDetail" component={MovieDetailScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }

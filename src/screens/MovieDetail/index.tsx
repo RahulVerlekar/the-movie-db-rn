@@ -2,6 +2,10 @@ import { Button, FlatList, Image, Pressable, StyleSheet, Text, TouchableOpacity,
 import MovieSearchItem from "../../components/MovieSearchItem";
 import { globalStyles } from "../../common/styles/globalStyles";
 import LinearGradient from "react-native-linear-gradient";
+import { useEffect, useState } from "react";
+import { MovieDetailsResponse } from "../../models/MovieDetailsResponse";
+import { MovieAPIClient } from "../../network/TheMovieDBClient";
+import { useRoute } from "@react-navigation/native";
 
 const DATA_MOVIE_GENRE = [
     { name: 'Alice In wonderland', genre: 'Fantasy' },
@@ -17,6 +21,27 @@ const DATA_MOVIE_GENRE = [
 ]
 
 const MovieDetail = () => {
+
+    const [movie, setMovie] = useState<MovieDetailsResponse>()
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const route = useRoute();
+    const { movieId } = route.params as { movieId: number };
+
+    const client = new MovieAPIClient();
+    useEffect(() => {
+        const fetchMovieDetails = async () => {
+            setIsLoading(true);
+            try {
+                const response = await client.getMovieDetails(movieId);
+                setMovie(response);
+            } catch (error) {
+                console.error('Error fetching movie details:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchMovieDetails();
+    }, []);
 
     const renderGenreBadge = (genre: string, index: number) => (
         <View key={index} style={styles.genreBadge}>
@@ -37,7 +62,7 @@ const MovieDetail = () => {
                         </Text>
                     </View>
                     <Image
-                        source={{ uri: 'https://image.tmdb.org/t/p/w500/2siOHQYDG7gCQB6g69g2pTZiSia.jpg' }}
+                        source={{ uri: `https://image.tmdb.org/t/p/w500${movie?.backdrop_path}` }}
                         style={styles.movieImage}
                         resizeMode="cover" />
                     <LinearGradient
@@ -47,7 +72,7 @@ const MovieDetail = () => {
                 </View>
                 <View style={styles.overlayContainer}>
                     <Text style={[globalStyles.title, styles.releaseDate]}>
-                        In theaters december 22, 2021
+                        {movie?.release_date ? `In theaters ${new Date(movie.release_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}` : ''}
                     </Text>
                     <Pressable style={styles.getTicketsButton}>
                         <View style={styles.getTicketsButtonContent}>
@@ -68,12 +93,14 @@ const MovieDetail = () => {
                 <View style={styles.detailsContent}>
                     <Text style={styles.sectionTitle}>Genres</Text>
                     <View style={styles.genresContainer}>
-                        {['Action', 'Thriller', 'Science', 'Fiction'].map(renderGenreBadge)}
+                        {movie?.genres.map((item, index) => (
+                                renderGenreBadge(item.name, index)
+                        ))}
                     </View>
                     <View style={{ height: 1, backgroundColor: '#E4E7EC', marginBottom: 10, marginTop: 10 }} />
                     <Text style={styles.sectionTitle}>Overview</Text>
                     <Text style={styles.overviewText}>
-                        As A Collection Of History's Worst Tyrants And Criminal Masterminds Gather To Plot A War To Wipe Out Millions, One Man Must Race Against Time To Stop Them. Discover The Origins Of The Very First Independent Intelligence Agency In The King's Man. The Comic Book “The Secret Service” By Mark Millar And Dave Gibbons.
+                        {movie?.overview}
                     </Text>
                 </View>
             </View>
