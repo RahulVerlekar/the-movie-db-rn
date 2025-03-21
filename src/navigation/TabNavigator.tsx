@@ -9,6 +9,7 @@ import SearchMovie from '../screens/SearchMovie';
 import SearchGenreResult from '../screens/SearchResult';
 import MovieDetail from '../screens/MovieDetail';
 import SearchContainer from '../screens/SearchContainer';
+import BookingScreen from '../screens/BookingScreen/indes';
 
 // Placeholder components for additional tabs
 const UpcomingScreen = () => <Text>Upcoming Movies</Text>;
@@ -32,7 +33,7 @@ const TabNavigator = () => {
       >
         <Tab.Screen 
           name="Dashboard" 
-          component={SearchContainer} 
+          component={BookingScreen} 
           options={{
             tabBarIcon: ({ color }) => (
               <Image source={require('../assets/icons/dashboard.png')} style={{ tintColor: color, width: 18, height: 18, marginBottom: 8 }} />
