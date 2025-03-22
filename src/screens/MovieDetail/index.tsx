@@ -1,18 +1,19 @@
-import { Button, FlatList, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Button, FlatList, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import MovieSearchItem from "../../components/MovieSearchItem";
 import { globalStyles } from "../../common/styles/globalStyles";
 import LinearGradient from "react-native-linear-gradient";
 import { useEffect, useState } from "react";
 import { MovieDetailsResponse } from "../../models/MovieDetailsResponse";
 import { MovieAPIClient } from "../../network/TheMovieDBClient";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
+import { TrendingStackParamList } from "../SearchContainer";
 
 const MovieDetail = () => {
 
     const [movie, setMovie] = useState<MovieDetailsResponse>()
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const route = useRoute();
-    const navigation = useNavigation();
+    const navigation:  NavigationProp<TrendingStackParamList> = useNavigation();
     const { goBack } = navigation;
     const { movieId } = route.params as { movieId: number };
 
@@ -31,6 +32,10 @@ const MovieDetail = () => {
         };
         fetchMovieDetails();
     }, []);
+
+    function onGetTickets() {
+        navigation.navigate('BookingScreen');
+    }
 
     const renderGenreBadge = (genre: string, index: number) => (
         <View key={index} style={styles.genreBadge}>
@@ -63,7 +68,9 @@ const MovieDetail = () => {
                     <Text style={[globalStyles.title, styles.releaseDate]}>
                         {movie?.release_date ? `In theaters ${new Date(movie.release_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}` : ''}
                     </Text>
-                    <Pressable style={styles.getTicketsButton}>
+                    <Pressable style={styles.getTicketsButton} onPress={() => {
+                        onGetTickets();
+                     }}>
                         <View style={styles.getTicketsButtonContent}>
                             <Text style={styles.getTicketsButtonText}>
                                 Get Tickets

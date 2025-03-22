@@ -1,22 +1,22 @@
+import { useEffect, useState } from "react";
 import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, Touchable, TouchableOpacity, View } from "react-native";
 
 interface TheatreScreenProps {
     theatreId: string;
-    width?: number;
-    height?: number;
+    showScaleButton?: boolean;
+    readOnlyMode?: boolean;
+    seatingArrangement: number[][]
     onPress?: (i: number, j: number) => void;
 }
 
-export const TheatreScreen = ({ theatreId, width, height, onPress }: TheatreScreenProps) => {
+export const TheatreScreen = ({ theatreId, onPress, showScaleButton: readOnlyMode = false, seatingArrangement }: TheatreScreenProps) => {
 
 
-    const scalingFactor = 1.25; // Adjust this value to scale the image size
+    const [scalingFactor, setScalingFactor] = useState(1) // Adjust this value to scale the image size
     const imageWidth = 10 * scalingFactor; // Adjust the width of the image
     const imageHeight = 10 * scalingFactor; // Adjust the height of the image
-    const margin = 3 * scalingFactor; // Adjust the margin between images
-    const seatingArrangement: number[][] = Array.from({ length: 25 }, (i) =>
-        Array.from({ length: 10 }, (j) => Math.floor(Math.random() * 5) + 1)
-    );
+    const margin = scalingFactor > 1 ? 6 : 3; // Adjust the margin between images
+
 
     const renderEmptySeat = () => {
         return (
@@ -29,6 +29,14 @@ export const TheatreScreen = ({ theatreId, width, height, onPress }: TheatreScre
             />
         );
     };
+
+    useEffect(() => {
+        if (readOnlyMode) {
+            setScalingFactor(0.25);
+        } else {
+            setScalingFactor(1);
+        }
+    }, [readOnlyMode])
 
     const hideSeat = (i: number, j: number) => {
         if (i === 3 || i === 16) {
@@ -45,31 +53,40 @@ export const TheatreScreen = ({ theatreId, width, height, onPress }: TheatreScre
 
     function getSeatColor(i: number, j: number) {
         Alert.alert(`Seat Color`, `Row: ${i}, Column: ${j}`);
+        onPress && onPress(i, j);
     }
 
     return (
-        <View style={{ flex: 1, backgroundColor: 'white', padding: 4, flexDirection: 'column' }}>
-            <View style={{ marginTop: 20 }}>
-                <Text style={{ color: "black", alignSelf: 'center' }}>screen</Text>
-            </View>
-            <View style={{ flex: 1, backgroundColor: 'white', padding: 4, flexDirection: 'row' }}>
-                <View>
-                    {seatingArrangement[0].map((data, index) => (
-                        <Text
-                            style={{
-                                width: imageWidth,
-                                height: imageHeight,
-                                margin: margin,
-                                textAlign: 'center',
-                                textAlignVertical: 'center',
-                                fontSize: 9 * scalingFactor,
-                            }}>{index}</Text>
-                    ))}
-                </View>
-                <ScrollView horizontal style={{ borderColor: 'green', borderWidth: 0, width: '100%', marginEnd: 0 }}>
-                    <View style={{ flexDirection: 'row', borderWidth: 0, borderColor: 'black', backgroundColor: 'white' }}>
+        <View style={{ flex: 1, backgroundColor: readOnlyMode ? '#EFEFEF' : "#fff", padding: 4, flexDirection: 'column', alignContent: 'center', borderColor: '#61C3F2', borderWidth: readOnlyMode==true ? 1 : 0, borderRadius: 10 }}>
+            <Image
+                source={require('../../assets/icons/screen.png')}
+                style={{
+                    width: 327 * scalingFactor,
+                    height: 36 * scalingFactor,
+                    alignSelf: 'center',
+                }} />
+            <View style={{ flex: 1, padding: 4, flexDirection: 'row', alignContent: 'center' }}>
+                {
+                    readOnlyMode && (
+                        <View>
+                            {seatingArrangement[0].map((data, index) => (
+                                <Text
+                                    style={{
+                                        width: imageWidth,
+                                        height: imageHeight,
+                                        margin: margin,
+                                        textAlign: 'center',
+                                        textAlignVertical: 'center',
+                                        fontSize: 9 * scalingFactor,
+                                    }}>{index}</Text>
+                            ))}
+                        </View>
+                    )
+                }
+                <ScrollView horizontal style={{ borderWidth: 0, width: '100%', marginEnd: 0 }}>
+                    <View style={{ flexDirection: 'row', borderWidth: 0, borderColor: 'black' }}>
                         {seatingArrangement.map((arrangement, index) => (
-                            <View key={index} style={{ flexDirection: 'column' }}>
+                            <View key={index} style={{ flexDirection: 'column', borderWidth: 0 }}>
                                 {
                                     arrangement.map((seat, seatIndex) => (
                                         <View key={seatIndex} style={{}}>{
@@ -81,7 +98,7 @@ export const TheatreScreen = ({ theatreId, width, height, onPress }: TheatreScre
                                                             width: imageWidth,
                                                             height: imageHeight,
                                                             margin: margin,
-                                                            tintColor: seat === 1 ? 'green' : seat === 2 ? 'yellow' : seat === 3 ? 'red' : seat === 4 ? 'blue' : 'gray',
+                                                            tintColor: seat === 1 ? '#61C3F2' : seat === 2 ? '#CD9D0F' : seat === 3 ? '#564CA3' : seat === 4 ? 'blue' : '#A6A6A6',
                                                         }} />
                                                 </TouchableOpacity>
                                             )
@@ -94,25 +111,24 @@ export const TheatreScreen = ({ theatreId, width, height, onPress }: TheatreScre
                     </View>
                 </ScrollView>
             </View>
+            {
+                readOnlyMode && (
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                        <TouchableOpacity
+                            style={{ marginHorizontal: 10, padding: 10, backgroundColor: 'white', borderRadius: 50 }}
+                            onPress={() => setScalingFactor(prev => Math.max(0.1, prev - 0.05))}
+                        >
+                            <Text style={{ fontSize: 20 }}>-</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{ marginHorizontal: 10, padding: 10, backgroundColor: 'white', borderRadius: 50 }}
+                            onPress={() => setScalingFactor(prev => prev + 0.05)}
+                        >
+                            <Text style={{ fontSize: 20 }}>+</Text>
+                        </TouchableOpacity>
+                    </View>
+                )
+            }
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        width: "100%",
-        height: 75,
-        borderRadius: 12,
-        backgroundColor: "blue",
-    },
-    curvedLine: {
-        width: "20%",
-        height: 100,
-        position: "absolute",
-        bottom: -25,
-        left: "40%",
-        borderRadius: 35,
-        backgroundColor: "black",
-        transform: [{ scaleX: 5 }, { scaleY: 1 }],
-    },
-});

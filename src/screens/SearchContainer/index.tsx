@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
-import { NavigationContainer, StaticParamList, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Button } from '@react-navigation/elements';
 import TrendingMovie from '../TrendingMovie';
 import SearchMovie from '../SearchMovie';
 import SearchGenreResult from '../SearchResult';
 import MovieDetail from '../MovieDetail';
+import BookingScreenSelect from '../BookingScreen';
 
 
 export type TrendingStackParamList = {
@@ -14,6 +12,7 @@ export type TrendingStackParamList = {
     SearchMovie: undefined;
     SearchResult: { grenreId: number };
     MovieDetail: { movieId: number };
+    BookingScreen: undefined;
 }
 
 function TrendingScreen() {
@@ -38,6 +37,11 @@ function SearchResultsScreen() {
 function MovieDetailScreen() {
     return (
         <MovieDetail />
+    )
+}
+function BookingScreen() {
+    return (
+        <BookingScreenSelect />
     )
 }
 
@@ -67,6 +71,12 @@ const Stack = createNativeStackNavigator(
                 options: {
                     headerShown: false,
                 }
+            },
+            BookingScreen: {
+                screen: BookingScreen,
+                options: {
+                    headerShown: false,
+                }
             }
         }
     }
@@ -80,6 +90,7 @@ function RootStack() {
             <Stack.Screen name="SearchMovie" component={SearchMovieScreen} options={{ headerShown: false }} />
             <Stack.Screen name="SearchResult" component={SearchResultsScreen} options={{ headerShown: false }} />
             <Stack.Screen name="MovieDetail" component={MovieDetailScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="BookingScreen" component={BookingScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }
