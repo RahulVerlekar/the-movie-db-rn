@@ -1,14 +1,9 @@
 import * as React from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { NavigationContainer, StaticParamList, useNavigation } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Button } from '@react-navigation/elements';
-import TrendingMovie from '../TrendingMovie';
-import SearchMovie from '../SearchMovie';
-import SearchGenreResult from '../SearchResult';
-import MovieDetail from '../MovieDetail';
+import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { NavigationContainer, NavigationProp, StaticParamList, useNavigation } from '@react-navigation/native';
 import { TheatreScreen } from '../../components/TheatreScreen';
 import { globalStyles } from '../../common/styles/globalStyles';
+import { TrendingStackParamList } from '../SearchContainer';
 
 export default function BookingScreenSelect() {
 
@@ -27,11 +22,18 @@ export default function BookingScreenSelect() {
         }
         return arrangement;
     }
+    const arrangements = [
+        getRandomArrangement(),
+        getRandomArrangement(),
+    ]
 
-    function onPress(i: number, j: number) {
-        console.log(`Row: ${i}, Column: ${j}`);
+    const onScreenSelected = (arrangement: number[][], name: string) => {
+        navigation.navigate('SeatConfirmation', {
+            arrangements: arrangement,
+            name: name
+        })
     }
-    const navigation = useNavigation();
+    const navigation: NavigationProp<TrendingStackParamList> = useNavigation();
     //dates from today to 5 more days
     const dates = [
         " 5 Mar",
@@ -70,9 +72,16 @@ export default function BookingScreenSelect() {
             </View>
             <View style={{ flex: 1, marginTop: 16, marginStart: 0, marginEnd: 16 }}>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: 16 }}>
-                    <StaticTheatreCard arrangement={getRandomArrangement()} time='12:30' name='Screen 1' price='Range Starts from 30 to 95' />
-                    <StaticTheatreCard arrangement={getRandomArrangement()} time='5:30' name='Screen 2' price='Range Starts from 30 to 95' />
-                    <StaticTheatreCard arrangement={getRandomArrangement()} time='6:30' name='Screen 3' price='Range Starts from 30 to 95' />
+                    <StaticTheatreCard arrangement={arrangements[0]} time='12:30' name='Screen 1' price='Range Starts from 30 to 95'
+                        onPress={(arrangements, name) => {
+                            onScreenSelected(arrangements, name);
+                        }} />
+                    <StaticTheatreCard arrangement={arrangements[1]} time='5:30' name='Screen 2' price='Range Starts from 30 to 95'
+                        onPress={
+                            (arrangements, name) => {
+                                onScreenSelected(arrangements, name);
+                            }
+                        } />
                 </ScrollView>
             </View>
 
@@ -112,21 +121,21 @@ const Chip = ({ text, selected, onPress }: { text: string; selected: boolean; on
     );
 };
 
-const StaticTheatreCard = ({ arrangement, time, name, price }: { arrangement: number[][], time: string, name: string, price: string }) => {
+const StaticTheatreCard = ({ arrangement, time, name, price, onPress }: { arrangement: number[][], time: string, name: string, price: string, onPress: (arrangement: number[][], name: string) => void }) => {
     return (
-        <View style={styles.theatreCardContainer}>
+        <Pressable style={styles.theatreCardContainer} onPress={() => onPress(arrangement, name)}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={[globalStyles.title]}>{time}</Text>
                 <Text style={[globalStyles.title, { color: '#8F8F8F', marginStart: 4 }]}>{name}</Text>
             </View>
             <TheatreScreen
-                    theatreId={name}
-                    seatingArrangement={arrangement}
-                    onPress={() => { }}
-                    readOnlyMode={false}
-                />
+                theatreId={name}
+                seatingArrangement={arrangement}
+                onPress={() => { }}
+                readOnlyMode={true}
+            />
             <Text style={[globalStyles.text, { color: '#8F8F8F', marginTop: 8 }]}>{price}</Text>
-        </View>
+        </Pressable>
     );
 }
 
@@ -167,7 +176,6 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 16,
         flexDirection: 'column',
-        height: 310,
-        margin: 10
+        height: 280
     }
 });

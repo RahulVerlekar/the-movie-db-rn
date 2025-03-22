@@ -5,6 +5,7 @@ import SearchMovie from '../SearchMovie';
 import SearchGenreResult from '../SearchResult';
 import MovieDetail from '../MovieDetail';
 import BookingScreenSelect from '../BookingScreen';
+import SeatConfirmation from '../SeatConfirmation';
 
 
 export type TrendingStackParamList = {
@@ -13,13 +14,14 @@ export type TrendingStackParamList = {
     SearchResult: { grenreId: number };
     MovieDetail: { movieId: number };
     BookingScreen: undefined;
+    SeatConfirmation: { arrangements: number[][], name: string };
 }
 
 function TrendingScreen() {
     return (
         <TrendingMovie />
     )
-    
+
 }
 
 function SearchMovieScreen() {
@@ -42,6 +44,11 @@ function MovieDetailScreen() {
 function BookingScreen() {
     return (
         <BookingScreenSelect />
+    )
+}
+function SeatConfirmationScreen() {
+    return (
+        <SeatConfirmation />
     )
 }
 
@@ -91,6 +98,7 @@ function RootStack() {
             <Stack.Screen name="SearchResult" component={SearchResultsScreen} options={{ headerShown: false }} />
             <Stack.Screen name="MovieDetail" component={MovieDetailScreen} options={{ headerShown: false }} />
             <Stack.Screen name="BookingScreen" component={BookingScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="SeatConfirmation" component={SeatConfirmation} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }
