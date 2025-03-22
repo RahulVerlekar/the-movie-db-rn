@@ -4,7 +4,7 @@ import Toolbar from '../../components/Toolbar';
 import { globalStyles } from '../../common/styles/globalStyles';
 import RoundedImageCard from '../../components/RoundedImageCard';
 import { colors } from '../../common/styles/colors';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Genre } from '../../models/GenreListResponse';
 import { MovieAPIClient } from '../../network/TheMovieDBClient';
 import { TrendingStackParamList } from '../SearchContainer';
@@ -21,6 +21,8 @@ export const SearchMovie = () => {
     const [searchText, setSearchText] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [movies, setMovies] = useState<Movie[]>([]);
+
+
 
     useEffect(() => {
         const fetchGenres = async () => {
@@ -188,8 +190,6 @@ const style = StyleSheet.create({
     }
 });
 
-const styles = StyleSheet.create({
-});
 
 
 export default SearchMovie;
