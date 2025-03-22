@@ -40,7 +40,7 @@ const SearchGenreResult = () => {
     return (
         <View style={style.container}>
             <View style={style.toolbarContainer}>
-                <TouchableOpacity onPress={() => { }}>
+                <TouchableOpacity onPress={() => { navigation.goBack() }}>
                     <Image source={require('../../assets/icons/back.png')} style={{ width: 30, height: 30, marginEnd: 8 }} />
                 </TouchableOpacity>
                 <Text style={[globalStyles.title, { alignSelf: 'center', verticalAlign: 'middle', marginBottom: 0 }]}>

@@ -12,13 +12,12 @@ export default function SeatConfirmation() {
     const navigation: NavigationProp<TrendingStackParamList> = useNavigation();
 
     function goBack() {
-        Alert.alert(`Go Back`, `Going back to the previous screen`);
         navigation.goBack();
     }
     return (
         <View style={styles.container}>
             <View style={styles.appBar}>
-                <Pressable onPress={() => { goBack() }} style={{ paddingStart: 16, paddingTop: 16, position: 'absolute' }}>
+                <Pressable onPress={() => { goBack() }} style={{ paddingStart: 16, paddingTop: 16, position: 'absolute', zIndex: 1 }}>
                     <Image source={require('../../assets/icons/back.png')} style={{ width: 30, height: 30, marginEnd: 8 }} />
                 </Pressable>
                 <View style={styles.titleContainer}>

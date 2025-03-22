@@ -47,7 +47,7 @@ export default function BookingScreenSelect() {
     return (
         <View style={styles.container}>
             <View style={styles.appBar}>
-                <TouchableOpacity onPress={() => { navigation.goBack() }} style={{ marginStart: 16, marginTop: 16, position: 'absolute' }}>
+                <TouchableOpacity onPress={() => { navigation.goBack() }} style={{ marginStart: 16, marginTop: 16, position: 'absolute', zIndex: 1 }}>
                     <Image source={require('../../assets/icons/back.png')} style={{ width: 30, height: 30, marginEnd: 8 }} />
                 </TouchableOpacity>
                 <View style={styles.titleContainer}>
