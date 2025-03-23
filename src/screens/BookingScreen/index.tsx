@@ -95,7 +95,7 @@ const Chip = ({ text, selected, onPress }: { text: string; selected: boolean; on
         <TouchableOpacity
             onPress={onPress}
             style={{
-                backgroundColor: selected ? '#61C3F2' : '#A6A6A6',
+                backgroundColor: selected ? '#61C3F2' : '#A0A6A6A6',
                 borderRadius: 10,
                 paddingVertical: 4,
                 paddingHorizontal: 8,
@@ -126,14 +126,16 @@ const StaticTheatreCard = ({ arrangement, time, name, price, onPress }: { arrang
         <Pressable style={styles.theatreCardContainer} onPress={() => onPress(arrangement, name)}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={[globalStyles.title]}>{time}</Text>
-                <Text style={[globalStyles.title, { color: '#8F8F8F', marginStart: 4 }]}>{name}</Text>
+                <Text style={[globalStyles.title, { color: '#8F8F8F', marginStart: 9 }]}>{name}</Text>
             </View>
-            <TheatreScreen
-                theatreId={name}
-                seatingArrangement={arrangement}
-                onPress={() => { }}
-                readOnlyMode={true}
-            />
+            <View style={{ borderWidth: 1, flex: 1, borderRadius: 10, borderColor: "#61C3F2", backgroundColor: "#FFF", alignContent: "center", justifyContent: "center", paddingStart: 20, paddingEnd: 20, paddingTop: 10, paddingBottom: 10 }}>
+                <TheatreScreen
+                    theatreId={name}
+                    seatingArrangement={arrangement}
+                    onPress={() => { }}
+                    readOnlyMode={true}
+                />
+            </View>
             <Text style={[globalStyles.text, { color: '#8F8F8F', marginTop: 8 }]}>{price}</Text>
         </Pressable>
     );
@@ -174,8 +176,8 @@ const styles = StyleSheet.create({
     },
     theatreCardContainer: {
         flex: 1,
-        padding: 16,
+        paddingStart: 16,
         flexDirection: 'column',
-        height: 280
+        height: 260,
     }
 });

@@ -9,7 +9,7 @@ interface TheatreScreenProps {
 }
 
 export const TheatreScreen = ({ theatreId, onPress, readOnlyMode, seatingArrangement }: TheatreScreenProps) => {
-    const [scalingFactor, setScalingFactor] = useState(readOnlyMode ? 0.75 : 1);
+    const [scalingFactor, setScalingFactor] = useState(readOnlyMode ? 0.65 : 1);
     const imageWidth = 10 * scalingFactor;
     const imageHeight = 10 * scalingFactor;
     const margin = scalingFactor > 1 ? 6 : 3;
@@ -26,7 +26,19 @@ export const TheatreScreen = ({ theatreId, onPress, readOnlyMode, seatingArrange
         );
     };
 
-    useEffect(() => {}, [readOnlyMode]);
+    useEffect(() => { 
+        if (readOnlyMode != undefined && readOnlyMode) {
+            // Use this code to get scaling factor incase there us a desired width or height
+            // const DESIRED_WIDTH = 150;
+            // const imageAndMarginWidth = DESIRED_WIDTH/seatingArrangement.length;
+            // const imageAndMarginHeight = DESIRED_WIDTH/seatingArrangement[0].length;
+            // const margin = 3;
+            // const imageWidth = imageAndMarginWidth - margin * 2;
+            // const imageHeight = imageAndMarginHeight - margin;
+            // const newScalingFactor = imageWidth / 10;
+            // setScalingFactor(newScalingFactor);
+        }
+    }, [readOnlyMode]);
 
     const hideSeat = (i: number, j: number) => {
         if (i === 3 || i === 16) {
