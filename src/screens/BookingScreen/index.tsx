@@ -95,7 +95,7 @@ const Chip = ({ text, selected, onPress }: { text: string; selected: boolean; on
         <TouchableOpacity
             onPress={onPress}
             style={{
-                backgroundColor: selected ? '#61C3F2' : '#A0A6A6A6',
+                backgroundColor: selected ? '#61C3F2' : '#A6A6A6A0',
                 borderRadius: 10,
                 paddingVertical: 4,
                 paddingHorizontal: 8,

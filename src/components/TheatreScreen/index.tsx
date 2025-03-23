@@ -26,7 +26,7 @@ export const TheatreScreen = ({ theatreId, onPress, readOnlyMode, seatingArrange
         );
     };
 
-    useEffect(() => { 
+    useEffect(() => {
         if (readOnlyMode != undefined && readOnlyMode) {
             // Use this code to get scaling factor incase there us a desired width or height
             // const DESIRED_WIDTH = 150;
@@ -104,16 +104,17 @@ export const TheatreScreen = ({ theatreId, onPress, readOnlyMode, seatingArrange
                                                         width: imageWidth,
                                                         height: imageHeight,
                                                         margin: margin,
+                                                        opacity: 0.5,
                                                         tintColor:
                                                             seat === 1
                                                                 ? '#61C3F2'
                                                                 : seat === 2
-                                                                ? '#CD9D0F'
-                                                                : seat === 3
-                                                                ? '#564CA3'
-                                                                : seat === 4
-                                                                ? 'blue'
-                                                                : '#A6A6A6',
+                                                                    ? '#CD9D0F'
+                                                                    : seat === 3
+                                                                        ? '#564CA3'
+                                                                        : seat === 4
+                                                                            ? 'blue'
+                                                                            : '#A6A6A6',
                                                     }}
                                                 />
                                             </TouchableOpacity>
@@ -126,18 +127,18 @@ export const TheatreScreen = ({ theatreId, onPress, readOnlyMode, seatingArrange
                 </ScrollView>
             </View>
             {!readOnlyMode && (
-                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-                    <TouchableOpacity
-                        style={{ marginHorizontal: 10, height: 32, width: 32, backgroundColor: 'white', borderRadius: 16 }}
-                        onPress={() => setScalingFactor((prev) => Math.max(0.1, prev - 0.05))}
-                    >
-                        <Text style={{ fontSize: 20, alignSelf: 'center' }}>-</Text>
-                    </TouchableOpacity>
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', marginTop: 10 }}>
                     <TouchableOpacity
                         style={{ marginHorizontal: 10, height: 32, width: 32, backgroundColor: 'white', borderRadius: 16 }}
                         onPress={() => setScalingFactor((prev) => prev + 0.05)}
                     >
                         <Text style={{ fontSize: 20, alignSelf: 'center' }}>+</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={{ marginHorizontal: 10, height: 32, width: 32, backgroundColor: 'white', borderRadius: 16 }}
+                        onPress={() => setScalingFactor((prev) => Math.max(0.1, prev - 0.05))}
+                    >
+                        <Text style={{ fontSize: 20, alignSelf: 'center' }}>-</Text>
                     </TouchableOpacity>
                 </View>
             )}

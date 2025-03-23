@@ -42,20 +42,23 @@ export default function SeatConfirmation() {
                                 width: 16,
                                 height: 16,
                                 margin: 4,
+                                marginEnd: 16,
                                 tintColor: '#CD9D0F'
                             }} />
                         <Text>Selected</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', flex: 1 / 2, flexGrow: 1 }}>
                         <Image
                             source={require('../../assets/icons/seat.png')}
                             style={{
                                 width: 16,
                                 height: 16,
-                                margin: 4,
-                                tintColor: '#A6A6A6'
+                                marginEnd: 16,
+                                marginStart: 8,
+                                tintColor: '#A6A6A6',
+                                alignSelf: 'center'
                             }} />
-                        <Text>Not available</Text>
+                        <Text style={{ alignSelf: 'center' }}>Not available</Text>
                     </View>
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 16 }}>
@@ -66,25 +69,32 @@ export default function SeatConfirmation() {
                                 width: 16,
                                 height: 16,
                                 margin: 4,
+                                marginEnd: 16,
                                 tintColor: '#564CA3'
                             }} />
                         <Text>VIP (150$)</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', flex: 1 / 2, flexGrow: 1 }}>
                         <Image
                             source={require('../../assets/icons/seat.png')}
                             style={{
                                 width: 16,
                                 height: 16,
-                                marginEnd: 4,
-                                tintColor: '#61C3F2'
+                                marginEnd: 16,
+                                tintColor: '#61C3F2',
+                                alignSelf: 'center'
                             }} />
                         <Text>Regular (50$)</Text>
                     </View>
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-                    <Text style={{ fontSize: 24 }}>4 / 3 row</Text>
-                    <TouchableOpacity onPress={() => { /* handle remove seat */ }}>
+                <View style={{
+                    flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginBottom: 16, backgroundColor: '#A6A6A6A0',
+                    paddingStart: 10, paddingEnd: 10, borderRadius: 10,
+                    width: 86, alignContent: 'center'
+                }}>
+                    <Text style={{ fontSize: 14, fontFamily: 'Poppins-Medium' }}>4 /</Text>
+                    <Text style={{ fontSize: 10, fontFamily: 'Poppins-Regular', marginEnd: 10 }}>3 row</Text>
+                    <TouchableOpacity onPress={() => { /* handle remove seat */ }} style={{alignSelf:'center'}}>
                         <Text style={{ fontSize: 24 }}>×</Text>
                     </TouchableOpacity>
                 </View>
