@@ -7,13 +7,15 @@ import { MovieDetailsResponse } from "../../models/MovieDetailsResponse";
 import { MovieAPIClient } from "../../network/TheMovieDBClient";
 import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
 import { TrendingStackParamList } from "../SearchContainer";
+import { colors } from "../../common/styles/colors";
+
 
 const MovieDetail = () => {
 
     const [movie, setMovie] = useState<MovieDetailsResponse>()
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const route = useRoute();
-    const navigation:  NavigationProp<TrendingStackParamList> = useNavigation();
+    const navigation: NavigationProp<TrendingStackParamList> = useNavigation();
     const { goBack } = navigation;
     const { movieId } = route.params as { movieId: number };
 
@@ -38,10 +40,15 @@ const MovieDetail = () => {
     }
 
     const renderGenreBadge = (genre: string, index: number) => (
-        <View key={index} style={styles.genreBadge}>
+        <View key={index} style={[styles.genreBadge, {backgroundColor: getTagColors(index)}]}>
             <Text style={styles.genreText}>{genre}</Text>
         </View>
     );
+
+    function getTagColors(position: number): string {
+        const tagColors = [colors.teal, colors.pink, colors.bluePurple, colors.mustardYellow];
+        return tagColors[position % tagColors.length];
+    }
 
     return (
         <View style={styles.container}>
@@ -70,7 +77,7 @@ const MovieDetail = () => {
                     </Text>
                     <Pressable style={styles.getTicketsButton} onPress={() => {
                         onGetTickets();
-                     }}>
+                    }}>
                         <View style={styles.getTicketsButtonContent}>
                             <Text style={styles.getTicketsButtonText}>
                                 Get Tickets
@@ -90,7 +97,7 @@ const MovieDetail = () => {
                     <Text style={styles.sectionTitle}>Genres</Text>
                     <View style={styles.genresContainer}>
                         {movie?.genres.map((item, index) => (
-                                renderGenreBadge(item.name, index)
+                            renderGenreBadge(item.name, index)
                         ))}
                     </View>
                     <View style={{ height: 1, backgroundColor: '#E4E7EC', marginBottom: 10, marginTop: 10 }} />
